@@ -72,6 +72,10 @@ def compute_apparent_slip(speed, rotation_per_minutes, density):
 def compute_real_slip(water_speed, rotation_per_minutes, density):
     return 1 - (water_speed / (rotation_per_minutes * density))
 
+######Effiency ratios######
 def compute_open_water_efficiency(thrust_coefficient, torque_coefficient, advance_ratio):
     return (thrust_coefficient / torque_coefficient) * (advance_ratio / (2 * pi))
+
+def compute_behind_efficiency(open_water_efficiency, rotational_efficiency=1):
+    return open_water_efficiency * rotational_efficiency
 
