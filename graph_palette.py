@@ -21,7 +21,11 @@ PALETTE = dict(CYAN = "#00AEEF",
                 STONE = "#F5F5F3",
                 )
 
-def charter_TandE_plotly(fig: go.Figure, width: int=1000, height: int=600, title_place: float=0.3) -> go.Figure:
+def charter_TandE_plotly(fig: go.Figure, 
+                         width: int=1000, 
+                         height: int=600, 
+                         title_place: float=0.3,
+                         make_title_bold: bool=True) -> go.Figure:
     """
     Formatting a plotly plot, can be made with go/px as long as it is a go.Figure object
     
@@ -37,6 +41,8 @@ def charter_TandE_plotly(fig: go.Figure, width: int=1000, height: int=600, title
         The height to resize the graph, by default 600
     title_place : float, optional
         Where to put the title, by default 0.3
+    make_title_bold : bool, optional
+        Whether to make the title bold
 
     Returns
     -------
@@ -45,14 +51,19 @@ def charter_TandE_plotly(fig: go.Figure, width: int=1000, height: int=600, title
     """
 
     y_axis_title = fig.layout.yaxis.title["text"] 
-    y_axis_title = y_axis_title.capitalize() if (len(y_axis_title) > 0) else "Value"
+    y_axis_title = "".join((y_axis_title[0].upper(), y_axis_title[1:])) if (len(y_axis_title) > 0) else "Value"
     
     x_axis_title = fig.layout.xaxis.title["text"] 
-    x_axis_title = x_axis_title.capitalize() if (len(x_axis_title) > 0) else "Value"
+    x_axis_title = "".join((x_axis_title[0].upper(), x_axis_title[1:])) if (len(x_axis_title) > 0) else "Value"
 
     default_name = "Variables" if (len(fig.data) > 1) else 'Variable'
     legend_title = fig.layout.legend.title["text"]
-    legend_title = legend_title.capitalize() if (len(legend_title) > 0) else default_name
+    legend_title = "".join((legend_title[0].upper(), legend_title[1:])) if (len(legend_title) > 0) else default_name #NOTE Breakdown the string and capitalize each word
+
+    title = fig.layout.title.text
+    if (make_title_bold is True):
+        if not (("<b>" in title) & ("</b>" in title)):
+            title = "".join(("<b>", title, "</b>")) #If the title is not bold, make bold
 
     fig.update_xaxes(
         title_font=dict(size=24, family="Raleway", color=PALETTE["DARK_GREEN"]),
@@ -73,7 +84,7 @@ def charter_TandE_plotly(fig: go.Figure, width: int=1000, height: int=600, title
         linecolor=DARK_GREY[2],
         zerolinecolor = 'rgba(0,0,0,0)',
         tickfont=dict(size=12, family="Raleway"),
-        title_standoff = 25,
+        title_standoff = 5,
         showgrid=False,
     )
     fig.update_layout(
@@ -81,9 +92,10 @@ def charter_TandE_plotly(fig: go.Figure, width: int=1000, height: int=600, title
         plot_bgcolor="rgba(245,245,243,1)",
         width=width,
         height=height,
-        title=dict(
-            x=title_place, font=dict(family="Raleway", size=28, color=PALETTE["DARK_GREEN"]),
-        ),
+        title=dict(x=title_place, 
+                   text = title,
+                   font=dict(family="Raleway", size=28, color=PALETTE["DARK_GREEN"]),
+                   xanchor ='center'),
         legend=dict(font=dict(family="Raleway", size=24, color=PALETTE["DARK_GREEN"],), title_text = legend_title),
     )
 
