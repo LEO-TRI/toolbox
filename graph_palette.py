@@ -14,7 +14,14 @@ PURPLE = ["#8d89a5", "#bbb8c9", "#d1d0db", "#e8e7ed"]
 
 FULL_PALETTE = np.vstack([CORAL, DARK_GREY, STONE, BLUE_GREY, BROWN, PURPLE]) #Artificial extension of the palette table for repetition 
 
-def charter_plotly(fig: go.Figure, width: int=1000, height: int=600, title_place: float=0.3) -> go.Figure:
+PALETTE = dict(CYAN = "#00AEEF",
+                GREEN = " #41AD49",
+                BLUE = "#2A6ED1",
+                DARK_GREEN = "#364951",
+                STONE = "#F5F5F3",
+                )
+
+def charter_TandE_plotly(fig: go.Figure, width: int=1000, height: int=600, title_place: float=0.3) -> go.Figure:
     """
     Formatting a plotly plot, can be made with go/px as long as it is a go.Figure object
     
@@ -36,32 +43,50 @@ def charter_plotly(fig: go.Figure, width: int=1000, height: int=600, title_place
     go.Figure
         A formated plot
     """
+
+    y_axis_title = fig.layout.yaxis.title["text"] 
+    y_axis_title = y_axis_title.capitalize() if (len(y_axis_title) > 0) else "Value"
+    
+    x_axis_title = fig.layout.xaxis.title["text"] 
+    x_axis_title = x_axis_title.capitalize() if (len(x_axis_title) > 0) else "Value"
+
+    default_name = "Variables" if (len(fig.data) > 1) else 'Variable'
+    legend_title = fig.layout.legend.title["text"]
+    legend_title = legend_title.capitalize() if (len(legend_title) > 0) else default_name
+
     fig.update_xaxes(
-        title_font=dict(size=24, family="FuturaTOT", color=DARK_GREY[1]),
-        title_font_family="FuturaTOT",
+        title_font=dict(size=24, family="Raleway", color=PALETTE["DARK_GREEN"]),
+        title_font_family="Raleway",
+        title_text = x_axis_title,
         color=DARK_GREY[2],
         linecolor=DARK_GREY[2],
-        tickfont=dict(size=12),
+        zerolinecolor = 'rgba(0,0,0,0)',
+        tickfont=dict(size=12, family="Raleway"),
+        title_standoff = 25,
         showgrid=False,
     )
     fig.update_yaxes(
-        title_font=dict(size=24, family="FuturaTOT", color=DARK_GREY[1]),
-        title_font_family="FuturaTOT",
+        title_font=dict(size=24, family="Raleway", color=PALETTE["DARK_GREEN"]),
+        title_font_family="Raleway",
+        title_text = y_axis_title,
         color=DARK_GREY[2],
         linecolor=DARK_GREY[2],
-        tickfont=dict(size=12),
+        zerolinecolor = 'rgba(0,0,0,0)',
+        tickfont=dict(size=12, family="Raleway"),
+        title_standoff = 25,
         showgrid=False,
     )
     fig.update_layout(
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(245,245,243,1)",
+        plot_bgcolor="rgba(245,245,243,1)",
         width=width,
         height=height,
         title=dict(
-            x=title_place, font=dict(family="FuturaTOT", size=28, color=DARK_GREY[1]),
+            x=title_place, font=dict(family="Raleway", size=28, color=PALETTE["DARK_GREEN"]),
         ),
-        legend=dict(font=dict(family="FuturaTOT", size=24, color=DARK_GREY[1],)),
+        legend=dict(font=dict(family="Raleway", size=24, color=PALETTE["DARK_GREEN"],), title_text = legend_title),
     )
+
     return fig
 
 def charter_graph(width: int=12, length: int=8) -> plt.Figure:
@@ -87,7 +112,7 @@ def charter_graph(width: int=12, length: int=8) -> plt.Figure:
     fig.set_size_inches(width, length)
     
     plt.rcParams.update({"font.size": 12})
-    plt.rcParams["font.family"] = "FuturaTOT"
+    plt.rcParams["font.family"] = "Raleway"
     
     ax.patch.set_visible(False)
     ax.spines["top"].set_visible(False)
