@@ -57,46 +57,51 @@ def charter_TandE_plotly(fig: go.Figure,
     x_axis_title = "".join((x_axis_title[0].upper(), x_axis_title[1:])) if (len(x_axis_title) > 0) else "Value"
 
     default_name = "Variables" if (len(fig.data) > 1) else 'Variable'
+
     legend_title = fig.layout.legend.title["text"]
     legend_title = "".join((legend_title[0].upper(), legend_title[1:])) if (len(legend_title) > 0) else default_name #NOTE Breakdown the string and capitalize each word
 
     title = fig.layout.title.text
-    if (make_title_bold is True):
+    if (make_title_bold is True) & (title is not None):
         if not (("<b>" in title) & ("</b>" in title)):
             title = "".join(("<b>", title, "</b>")) #If the title is not bold, make bold
 
     fig.update_xaxes(
-        title_font=dict(size=24, family="Raleway", color=PALETTE["DARK_GREEN"]),
+        title_font=dict(size=20, family="Raleway", color=PALETTE["DARK_GREEN"]),
         title_font_family="Raleway",
         title_text = x_axis_title,
         color=DARK_GREY[2],
         linecolor=DARK_GREY[2],
         zerolinecolor = 'rgba(0,0,0,0)',
-        tickfont=dict(size=12, family="Raleway"),
+        tickfont=dict(color="#323C46", size=12, family="Raleway"),
         title_standoff = 25,
         showgrid=False,
     )
     fig.update_yaxes(
-        title_font=dict(size=24, family="Raleway", color=PALETTE["DARK_GREEN"]),
+        title_font=dict(size=20, family="Raleway", color=PALETTE["DARK_GREEN"]),
         title_font_family="Raleway",
         title_text = y_axis_title,
         color=DARK_GREY[2],
         linecolor=DARK_GREY[2],
         zerolinecolor = 'rgba(0,0,0,0)',
-        tickfont=dict(size=12, family="Raleway"),
+        tickfont=dict(color="#323C46", size=12, family="Raleway"),
         title_standoff = 5,
         showgrid=False,
     )
     fig.update_layout(
-        paper_bgcolor="rgba(245,245,243,1)",
-        plot_bgcolor="rgba(245,245,243,1)",
+        paper_bgcolor='#eaf1f1',#"rgba(245,245,243,1)", #A9A9A9	Dark Gray
+        plot_bgcolor= '#eaf1f1', #"rgba(245,245,243,1)",
         width=width,
         height=height,
         title=dict(x=title_place, 
                    text = title,
-                   font=dict(family="Raleway", size=28, color=PALETTE["DARK_GREEN"]),
-                   xanchor ='center'),
-        legend=dict(font=dict(family="Raleway", size=24, color=PALETTE["DARK_GREEN"],), title_text = legend_title),
+                   font=dict(family="Raleway", size=24, color=PALETTE["DARK_GREEN"]),
+                   xanchor ='center'
+                   ),
+        legend=dict(title_font_family="Raleway", 
+                    font=dict(family="Raleway", size=16, color=PALETTE["DARK_GREEN"]), 
+                    title_text = legend_title
+                    ),
     )
 
     return fig
