@@ -51,18 +51,21 @@ def charter_TandE_plotly(fig: go.Figure,
     """
 
     y_axis_title = fig.layout.yaxis.title["text"] 
-    y_axis_title = "".join((y_axis_title[0].upper(), y_axis_title[1:])) if (len(y_axis_title) > 0) else "Value"
+    if not (y_axis_title is None):
+        y_axis_title = "".join((y_axis_title[0].upper(), y_axis_title[1:])) if (len(y_axis_title) > 0) else "Value"
     
     x_axis_title = fig.layout.xaxis.title["text"] 
-    x_axis_title = "".join((x_axis_title[0].upper(), x_axis_title[1:])) if (len(x_axis_title) > 0) else "Value"
+    if not (x_axis_title is None):
+        x_axis_title = "".join((x_axis_title[0].upper(), x_axis_title[1:])) if (len(x_axis_title) > 0) else "Value"
 
     default_name = "Variables" if (len(fig.data) > 1) else 'Variable'
 
     legend_title = fig.layout.legend.title["text"]
-    legend_title = "".join((legend_title[0].upper(), legend_title[1:])) if (len(legend_title) > 0) else default_name #NOTE Breakdown the string and capitalize each word
+    if not (legend_title is None):
+        legend_title = "".join((legend_title[0].upper(), legend_title[1:])) if (len(legend_title) > 0) else default_name #NOTE Breakdown the string and capitalize each word
 
     title = fig.layout.title.text
-    if (make_title_bold is True) & (title is not None):
+    if (make_title_bold is True) & (not (title is None)):
         if not (("<b>" in title) & ("</b>" in title)):
             title = "".join(("<b>", title, "</b>")) #If the title is not bold, make bold
 
